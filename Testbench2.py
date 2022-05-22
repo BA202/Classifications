@@ -6,11 +6,11 @@ from ModelReport.ModelReport import ModelReport
 
 
 from  Models.BERT import BERT
-#from  Models.KNearestNeighbors import KNearestNeighbors
-#from  Models.LogisticRegression import LogisticRegression
+from  Models.KNearestNeighbors import KNearestNeighbors
+from  Models.LogisticRegression import LogisticRegression
 from  Models.MultinomialNaiveBayes import MultinomialNaiveBayes
-#from  Models.RandomForest import RandomForest
-#from  Models.SupportVectorMachine import SupportVectorMachine
+from  Models.RandomForest import RandomForest
+from  Models.SupportVectorMachine import SupportVectorMachine
 
 
 class testConstants:
@@ -42,6 +42,78 @@ class testConstants:
             'data': 'Score',
             'model': MultinomialNaiveBayes,
             'modelName': "MultinomialNaiveBayes",
+            'modelCreator': "Tobias Rothlin",
+            'mlPrinciple': "Transformers",
+            'refrences': {
+                'NultinomialNB Explained': "https://towardsdatascience.com/sentimental-analysis-using-vader-a3415fef7664",
+            },
+            'algorithemDescription': """""",
+            'graphicPath': "",
+            'graphicDescription': "",
+            'dataSet': f"ClassifiedDataSetV1.3 with {folds} folds cross validation",
+            'seed': seed,
+            'kfolds': folds,
+            'opParams': None
+        }
+        ,
+        {
+            'data': 'Score',
+            'model': KNearestNeighbors,
+            'modelName': "KNearestNeighbors",
+            'modelCreator': "Tobias Rothlin",
+            'mlPrinciple': "Transformers",
+            'refrences': {
+                'NultinomialNB Explained': "https://towardsdatascience.com/sentimental-analysis-using-vader-a3415fef7664",
+            },
+            'algorithemDescription': """""",
+            'graphicPath': "",
+            'graphicDescription': "",
+            'dataSet': f"ClassifiedDataSetV1.3 with {folds} folds cross validation",
+            'seed': seed,
+            'kfolds': folds,
+            'opParams': None
+        }
+        ,
+        {
+            'data': 'Score',
+            'model': LogisticRegression,
+            'modelName': "LogisticRegression",
+            'modelCreator': "Tobias Rothlin",
+            'mlPrinciple': "Transformers",
+            'refrences': {
+                'NultinomialNB Explained': "https://towardsdatascience.com/sentimental-analysis-using-vader-a3415fef7664",
+            },
+            'algorithemDescription': """""",
+            'graphicPath': "",
+            'graphicDescription': "",
+            'dataSet': f"ClassifiedDataSetV1.3 with {folds} folds cross validation",
+            'seed': seed,
+            'kfolds': folds,
+            'opParams': None
+        }
+        ,
+        {
+            'data': 'Score',
+            'model': RandomForest,
+            'modelName': "RandomForest",
+            'modelCreator': "Tobias Rothlin",
+            'mlPrinciple': "Transformers",
+            'refrences': {
+                'NultinomialNB Explained': "https://towardsdatascience.com/sentimental-analysis-using-vader-a3415fef7664",
+            },
+            'algorithemDescription': """""",
+            'graphicPath': "",
+            'graphicDescription': "",
+            'dataSet': f"ClassifiedDataSetV1.3 with {folds} folds cross validation",
+            'seed': seed,
+            'kfolds': folds,
+            'opParams': None
+        }
+        ,
+        {
+            'data': 'Score',
+            'model': SupportVectorMachine,
+            'modelName': "SupportVectorMachine",
             'modelCreator': "Tobias Rothlin",
             'mlPrinciple': "Transformers",
             'refrences': {
@@ -122,7 +194,7 @@ def modelPerofrmaceEvaluation(data,model,modelName,modelCreator,mlPrinciple,refr
 if __name__ == '__main__':
     testbenchDataHabler = DataHandler(testConstants.dataLocation,lan="English")
     #loops through the testConstants dict
-    for model in testConstants.modelsToEvaluate[1:]:
+    for model in testConstants.modelsToEvaluate:
         print("-Loading dataset:")
         if model['data'] == "Score":
             testData = testbenchDataHabler.getScoreData(testConstants.balancedDataSet)

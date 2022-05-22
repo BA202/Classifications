@@ -9,13 +9,13 @@ class BERT:
         self.__modelName = 'bert-base-uncased'
         self.__maxLength = 100
         self.__trainingEpochs = 10
-        self.__learningRate=5e-7
+        self.__learningRate=2e-5
         self.__validationSplit = 0.2
 
         self.__catToInt = {cat:i for i,cat in enumerate(list({sample[1] for sample in trainingData}))}
         self.__intToCat = {self.__catToInt[key]: key for key in self.__catToInt.keys()}
 
-        self.__model = transformers.TFAutoModelForSequenceClassification.from_pretrained(self.__modelName, from_pt=True, num_labels=2)
+        self.__model = transformers.TFAutoModelForSequenceClassification.from_pretrained(self.__modelName, from_pt=True, num_labels=len(list(self.__catToInt.keys())))
         self.__tokenizer = transformers.AutoTokenizer.from_pretrained(self.__modelName)
 
         optimizer = tf.keras.optimizers.Adam(learning_rate=self.__learningRate, epsilon=1e-08, clipnorm=1.0)
@@ -61,7 +61,6 @@ class BERT:
             return_attention_mask=True,
             verbose=True,)
         prediction = self.__model(sentenceAsVec)[0][0]
-        prediction = tf.nn.softmax(prediction,axis=-1)
         if prediction[0] > prediction[1]:
             return self.__intToCat[0]
         else:
