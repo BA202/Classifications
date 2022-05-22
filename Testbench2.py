@@ -8,7 +8,7 @@ from ModelReport.ModelReport import ModelReport
 from  Models.BERT import BERT
 #from  Models.KNearestNeighbors import KNearestNeighbors
 #from  Models.LogisticRegression import LogisticRegression
-#from  Models.MultinomialNaiveBayes import MultinomialNaiveBayes
+from  Models.MultinomialNaiveBayes import MultinomialNaiveBayes
 #from  Models.RandomForest import RandomForest
 #from  Models.SupportVectorMachine import SupportVectorMachine
 
@@ -18,24 +18,38 @@ class testConstants:
     seed = 4.83819
     dataLocation = ""
     balancedDataSet = False
-    balancedSplitDataSet = False
+    balancedSplitDataSet = True
 
     modelsToEvaluate = [
         {
             'data': 'Score',
             'model': BERT,
-            'modelName': "MultinomialNaiveBayesOnScore",
+            'modelName': "BERT",
             'modelCreator': "Tobias Rothlin",
-            'mlPrinciple': "Multinomial Naive Bayes",
+            'mlPrinciple': "Transformers",
             'refrences': {
                 'NultinomialNB Explained': "https://towardsdatascience.com/sentimental-analysis-using-vader-a3415fef7664",
-                'Stanford NLP Course': "http://spark-public.s3.amazonaws.com/nlp/slides/naivebayes.pdf",
-                'Stanford NLP Lecture': "https://www.youtube.com/playlist?list=PLLssT5z_DsK8HbD2sPcUIDfQ7zmBarMYv",
-                'Engilsh Stopwords': "https://www.tutorialspoint.com/python_text_processing/python_remove_stopwords.htm"
             },
-            'algorithemDescription': """The learning algorithm used in this classification is the Multinomial Naïve Bayes. This approach was chosen as it is easy to implement and is computational very efficient. The first step in the classification pipeline is removing all strop words for example 'i', 'me', 'my', 'myself', etc. A list of English stop word is provided by the nltk module. The stop words remover just removes every word that is in the list of stop words. Next the sentence is passed through the stemmer. Stemmers remove morphological affixes from words, leaving only the word stem. This is done with the PorterStemmer class from the nltk module. The final preprocessing step is to vectorize the sentence. This results in a bag of words representation of the sentence. First all the words must be tokenized and then counted. The result will be a numerical feature vector. To generate this vector the CountVectorizer class from sklearn is used.  This class implements both tokenization and occurrence counting in a single class. With the sentence now represented in a vector the Naïve Bayes classifier can work with this vector. For the implementation of the Naïve Bayes classifier the MultinomialNB class (sklearn) is used. """,
-            'graphicPath': "/Users/tobiasrothlin/Documents/BachelorArbeit/ScoreClassifier/OverviewImg.png",
-            'graphicDescription': "Classification Pipeline",
+            'algorithemDescription': """""",
+            'graphicPath': "",
+            'graphicDescription': "",
+            'dataSet': f"ClassifiedDataSetV1.3 with {folds} folds cross validation",
+            'seed': seed,
+            'kfolds': folds,
+            'opParams': None
+        },
+        {
+            'data': 'Score',
+            'model': MultinomialNaiveBayes,
+            'modelName': "MultinomialNaiveBayes",
+            'modelCreator': "Tobias Rothlin",
+            'mlPrinciple': "Transformers",
+            'refrences': {
+                'NultinomialNB Explained': "https://towardsdatascience.com/sentimental-analysis-using-vader-a3415fef7664",
+            },
+            'algorithemDescription': """""",
+            'graphicPath': "",
+            'graphicDescription': "",
             'dataSet': f"ClassifiedDataSetV1.3 with {folds} folds cross validation",
             'seed': seed,
             'kfolds': folds,
@@ -108,7 +122,7 @@ def modelPerofrmaceEvaluation(data,model,modelName,modelCreator,mlPrinciple,refr
 if __name__ == '__main__':
     testbenchDataHabler = DataHandler(testConstants.dataLocation,lan="English")
     #loops through the testConstants dict
-    for model in testConstants.modelsToEvaluate:
+    for model in testConstants.modelsToEvaluate[1:]:
         print("-Loading dataset:")
         if model['data'] == "Score":
             testData = testbenchDataHabler.getScoreData(testConstants.balancedDataSet)

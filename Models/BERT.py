@@ -10,6 +10,7 @@ class BERT:
         self.__maxLength = 100
         self.__trainingEpochs = 10
         self.__learningRate=5e-7
+        self.__validationSplit = 0.2
 
         self.__catToInt = {cat:i for i,cat in enumerate(list({sample[1] for sample in trainingData}))}
         self.__intToCat = {self.__catToInt[key]: key for key in self.__catToInt.keys()}
@@ -42,7 +43,7 @@ class BERT:
         self.__model.fit(
             x=sentencesAsVec['input_ids'],
             y=np.array([self.__catToInt[sample[1]] for sample in trainingData]),
-            validation_split=0.2,
+            validation_split=self.__validationSplit,
             batch_size=64,
             epochs=self.__trainingEpochs,
             callbacks=[tensorboardCallback,earlyStoppingCallback]
@@ -68,5 +69,4 @@ class BERT:
 
 
     def getParameters(self):
-        modelParams = self.__model.get_params()
-        return {'kernel':modelParams['kernel'],'degree':modelParams['degree'],'gamma':modelParams['gamma'],'C':modelParams['C'],'max_iter':modelParams['max_iter']}
+        return {'Base Model Name':self.__modelName ,'Training Epochs':self.__trainingEpochs,'Learning Rate':self.__learningRate,'validation Split':self.__validationSplit}
