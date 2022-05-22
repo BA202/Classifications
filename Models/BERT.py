@@ -9,6 +9,7 @@ class BERT:
         self.__modelName = 'bert-base-uncased'
         self.__maxLength = 100
         self.__trainingEpochs = 10
+        self.__learningRate=5e-7
 
         self.__catToInt = {cat:i for i,cat in enumerate(list({sample[1] for sample in trainingData}))}
         self.__intToCat = {self.__catToInt[key]: key for key in self.__catToInt.keys()}
@@ -16,11 +17,14 @@ class BERT:
         self.__model = transformers.TFAutoModelForSequenceClassification.from_pretrained(self.__modelName, from_pt=True, num_labels=2)
         self.__tokenizer = transformers.AutoTokenizer.from_pretrained(self.__modelName)
 
-        optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
+        optimizer = tf.keras.optimizers.Adam(learning_rate=self.__learningRate, epsilon=1e-08, clipnorm=1.0)
+        loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+        metrics = [tf.keras.metrics.SparseCategoricalAccuracy('accuracy')]
+
         tensorboardCallback = tf.keras.callbacks.TensorBoard(log_dir="logs")
         earlyStoppingCallback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
 
-        self.__model.compile(optimizer=optimizer, loss="binary_crossentropy",metrics=["categorical_accuracy"])
+        self.__model.compile(optimizer=optimizer, loss=loss,metrics=metrics)
         self.__model.summary()
 
         sentencesAsVec = self.__tokenizer(
